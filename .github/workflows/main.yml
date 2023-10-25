@@ -16,12 +16,13 @@ jobs:
     - name: Create PKG Package
       run: |
         # Specify the path to your osquery binary
-        OSQUERY_BINARY_PATH=./osqueryi
-
+        OSQUERY_BINARY_PATH=osqueryi
+        
         # Replace these commands with the pkgbuild and productbuild commands
         # Example:
-        pkgbuild --root "$OSQUERY_BINARY_PATH" -i com.yourcompany.yourapp -v 1.0 --install-location / -o MyAppInstaller.pkg
+        pkgbuild --root "$OSQUERY_BINARY_PATH" --identifier com.yourcompany.yourapp --version 1.0 --install-location / --product MyAppInstaller.pkg
         productbuild --package MyAppInstaller.pkg --version 1.0 --identifier com.yourcompany.yourapp YourApp.pkg
+
 
     - name: Upload PKG Installer
       uses: actions/upload-artifact@v2
