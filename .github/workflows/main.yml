@@ -1,39 +1,43 @@
-name: Build macOS PKG Installer
+# This is a basic workflow to help you get started with GitHub Actions
 
+name: Build and upload pkg installer
+
+# Controls when the workflow will run
 on:
+  # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches:
-      - main
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # This job builds and uploads the pkg installer
   build:
+    # The type of runner that the job will run on
     runs-on: macos-latest
 
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      # Checks out the repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
 
-    - name: Create PKG Package
-      run: |
-        # Specify the path to your osquery binary
-        OSQUERY_BINARY_PATH=osqueryi
-        
-        # Replace these commands with the pkgbuild and productbuild commands
-        # Example:
-        pkgbuild --root "$OSQUERY_BINARY_PATH" --identifier com.yourcompany.yourapp --version 1.0 --install-location / --product MyAppInstaller.pkg
-        productbuild --package MyAppInstaller.pkg --version 1.0 --identifier com.yourcompany.yourapp YourApp.pkg
+      # Sets up Node.js environment
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
 
+      # Installs dependencies
+      - run: npm install
 
-    - name: Upload PKG Installer
-      uses: actions/upload-artifact@v2
-      with:
-        name: your-app-pkg
-        path: YourApp.pkg
+      # Builds the app using pkgbuild
+      - run: pkgbuild --root ./app --identifier com.example.app --version 1.0.0 --install-location /Applications app.pkg
 
-    - name: Publish Release
-      id: publish-release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: YourApp.pkg
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Uploads the installer as an artifact
+      - uses: actions/upload-artifact@v2
+        with:
+          name: app.pkg
+          path: app.pkg
