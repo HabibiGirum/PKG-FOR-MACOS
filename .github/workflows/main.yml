@@ -16,7 +16,7 @@ jobs:
     - name: Create PKG Package
       run: |
         # Specify the path to your osquery binary
-        OSQUERY_BINARY_PATH=./osquery
+        OSQUERY_BINARY_PATH=./osqueryi
 
         # Replace these commands with the pkgbuild and productbuild commands
         # Example:
