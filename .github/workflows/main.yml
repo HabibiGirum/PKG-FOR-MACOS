@@ -1,0 +1,43 @@
+name: Build macOS PKG Installer
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Xcode
+      uses: actions/setup-xcode@v2
+      with:
+        xcode-version: 13.0 # Change to your desired Xcode version
+
+    - name: Create PKG Package
+      run: |
+        # Specify the path to your osquery binary
+        OSQUERY_BINARY_PATH=./osquery
+
+        # Replace these commands with the pkgbuild and productbuild commands
+        # Example:
+        pkgbuild --root "$OSQUERY_BINARY_PATH" -i com.yourcompany.yourapp -v 1.0 --install-location / -o MyAppInstaller.pkg
+        productbuild --package MyAppInstaller.pkg --version 1.0 --identifier com.yourcompany.yourapp YourApp.pkg
+
+    - name: Upload PKG Installer
+      uses: actions/upload-artifact@v2
+      with:
+        name: your-app-pkg
+        path: YourApp.pkg
+
+    - name: Publish Release
+      id: publish-release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: YourApp.pkg
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
