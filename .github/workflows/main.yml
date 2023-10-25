@@ -36,7 +36,7 @@ jobs:
       # Builds the app using pkgbuild
       
       - run: |
-          cp osqueryi ./osqueryi
+          # cp osqueryi ./osqueryi
           pkgbuild --identifier com.foo.pkg --install-location ./usr/local/bin/ --root ./ osqueryi.pkg
 
       # Uploads the installer as an artifact
