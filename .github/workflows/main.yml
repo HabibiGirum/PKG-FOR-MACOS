@@ -34,7 +34,7 @@ jobs:
       - run: npm install
 
       # Builds the app using pkgbuild
-      - run: pkgbuild --root osqueryi --identifier com.example.app --version 1.0.0 --install-location /Applications app.pkg
+      - run: pkgbuild --identifier com.foo.pkg --install-location ./usr/local/bin/ --root ./ foo.pkg
 
       # Uploads the installer as an artifact
       - uses: actions/upload-artifact@v2
