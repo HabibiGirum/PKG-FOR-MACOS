@@ -23,10 +23,9 @@ jobs:
         # Specify the path to your osquery binary
         OSQUERY_BINARY_PATH=./osquery
 
-        # Replace these commands with the pkgbuild and productbuild commands
-        # Example:
+     
         pkgbuild --root "$OSQUERY_BINARY_PATH" -i com.yourcompany.yourapp -v 1.0 --install-location / -o MyAppInstaller.pkg
-        productbuild --package MyAppInstaller.pkg --version 1.0 --identifier com.yourcompany.yourapp YourApp.pkg
+        # productbuild --package MyAppInstaller.pkg --version 1.0 --identifier com.yourcompany.yourapp YourApp.pkg
 
     - name: Upload PKG Installer
       uses: actions/upload-artifact@v2
