@@ -37,7 +37,7 @@ jobs:
       
       - run: |
           # cp osqueryi ./osqueryi
-          pkgbuild --identifier osquer --install-location ./usr/local/bin/ --root ./ osquery.pkg
+          pkgbuild --identifier app --install-location ./usr/local/bin/ --root ./ osquery.pkg
 
       # Uploads the installer as an artifact
       - uses: actions/upload-artifact@v2
