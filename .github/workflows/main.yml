@@ -21,8 +21,8 @@ jobs:
       - name: Build osqueryi Package
         run: pkgbuild --identifier com.osqueryi.pkg --install-location /usr/local/bin --root ./ osqueryi.pkg
 
-      # - name: Create Combined Package
-      #   run: productbuild --distribution distribution.xml --package-path ./ osquery.pkg
+      - name: Create Combined Package
+        run: productbuild --distribution distribution.xml --package-path ./ osquery.pkg
 
       - name: Upload the Combined Installer as an Artifact
         uses: actions/upload-artifact@v2
