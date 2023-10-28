@@ -1,48 +1,33 @@
-# This is a basic workflow to help you get started with GitHub Actions
+name: Build macOS Installer Package
 
-name: Build and upload pkg installer
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - main # Change this to your branch name
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This job builds and uploads the pkg installer
   build:
-    # The type of runner that the job will run on
     runs-on: macos-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks out the repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      # Sets up Node.js environment
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14'
+    - name: Set up Xcode
+      uses: actions/setup-xcode@v2
 
-      # Installs dependencies
-      - run: npm install
+    - name: Install necessary dependencies (if any)
+      run: |
+        # Add any commands to install dependencies, if needed
+        # For example, if you're using Homebrew: brew install ...
 
-      # Builds the app using pkgbuild
-      
-      - run: |
-          # cp osqueryi ./osqueryi
-          pkgbuild --identifier app --install-location ./usr/local/bin/ --root ./ osquery.pkg
-          productbuild --distribution distribution.xml --package-path MyApp.pkg/ MyAppInstaller.pkg
+    - name: Build the macOS installer package
+      run: |
+        # Run the commands to build the package using productbuild
+        productbuild --distribution distribution.xml --package-path . output.pkg
 
-
-      # Uploads the installer as an artifact
-      - uses: actions/upload-artifact@v2
-        with:
-          name: app.pkg
-          path: ./osquery.pkg
+    - name: Upload the package artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: osquery-installer
+        path: output.pkg
