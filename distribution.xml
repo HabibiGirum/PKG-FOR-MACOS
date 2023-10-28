@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<installer-gui-script minSpecVersion="2">
+    <title>Osquery Installer by Habtamu</title>
+    <allowed-os-versions>
+        <os-version min="10.10"/>
+    </allowed-os-versions>
+    <options customize="allow" require-scripts="false" rootVolumeOnly="true" hostArchitectures="arm64,x86_64"/>
+    <background file="background.png" alignment="bottomleft" mime-type="image/png" scaling="none" />
+    <welcome file="Welcome.html" mime-type="text/html"/>
+    <conclusion file="Conclusion.html" mime-type="text/html"/>
+    <installation-check script="osquery_install_check();"/>
+
+    <script>
+<![CDATA[
+function osquery_install_check() {
+  // You can add custom installation checks here if needed.
+  return true;
+}
+]]>
+    </script>
+
+    <choices-outline>
+        <line choice="osquery_choice"/>
+    </choices-outline>
+
+    <choice id="osquery_choice" title="Install Osquery" start_enabled="true">
+        <pkg-ref id="com.yourcompany.osquery">osqueryi.pkg</pkg-ref>
+    </choice>
+</installer-gui-script>
