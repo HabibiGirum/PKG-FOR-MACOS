@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <installer-gui-script minSpecVersion="1">
     <title>osquery Installer</title>
+    <background file="background.png" alignment="bottomleft" mime-type="image/png" scaling="none" />
+    <welcome file="Welcome.html" mime-type="text/html"/>
+
     <options customize="never" allow-external-scripts="no"/>
     <domains enable_anywhere="true"/>
     <choices-outline>
@@ -15,6 +18,6 @@
     </choice>
     <pkg-ref id="com.osqueryd.pkg" version="1.0" onConclusion="none">osqueryd.pkg</pkg-ref>
     <pkg-ref id="com.osqueryi.pkg" version="1.0" onConclusion="none">osqueryi.pkg</pkg-ref>
-    <introduction file="Welcome.html"/>
-    <background file="backg.jpg" mime-type="image/jpeg" scaling="tofit" uti="public.jpeg" />
+<!--     <introduction file="Welcome.html"/>
+    <background file="backg.jpg" mime-type="image/jpeg" scaling="tofit" uti="public.jpeg" /> -->
 </installer-gui-script>
