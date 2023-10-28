@@ -13,18 +13,22 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Xcode
-      uses: actions/setup-xcode@v2
-
-    - name: Install necessary dependencies (if any)
+    - name: Install Homebrew
       run: |
-        # Add any commands to install dependencies, if needed
-        # For example, if you're using Homebrew: brew install ...
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      shell: bash
+
+    - name: Install necessary dependencies
+      run: |
+        # Add any necessary commands to install dependencies using Homebrew
+        # For example, if you need to install a tool: brew install <tool>
+      shell: bash
 
     - name: Build the macOS installer package
       run: |
         # Run the commands to build the package using productbuild
         productbuild --distribution distribution.xml --package-path . output.pkg
+      shell: bash
 
     - name: Upload the package artifact
       uses: actions/upload-artifact@v2
