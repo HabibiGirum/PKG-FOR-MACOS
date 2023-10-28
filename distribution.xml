@@ -16,5 +16,5 @@
     <pkg-ref id="com.osqueryd.pkg" version="1.0" onConclusion="none">osqueryd.pkg</pkg-ref>
     <pkg-ref id="com.osqueryi.pkg" version="1.0" onConclusion="none">osqueryi.pkg</pkg-ref>
     <introduction file="Welcome.html"/>
-    <background file="background.png" mime-type="image/png" scaling="tofit"/>
+    <background file="backg.jpg" mime-type="image/jpeg" scaling="tofit"/>
 </installer-gui-script>
