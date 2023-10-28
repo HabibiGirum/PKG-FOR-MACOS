@@ -15,11 +15,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build the App Package
+      - name: Build osqueryd Package
+        run: pkgbuild --identifier com.osqueryd.pkg --install-location /usr/local/bin --root ./ osqueryd.pkg
+
+      - name: Build osqueryi Package
         run: pkgbuild --identifier com.osqueryi.pkg --install-location /usr/local/bin --root ./ osqueryi.pkg
 
-      - name: Upload the Installer as an Artifact
+      # - name: Create Combined Package
+      #   run: productbuild --distribution distribution.xml --package-path ./ osquery.pkg
+
+      - name: Upload the Combined Installer as an Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: osqueryi.pkg
-          path: osqueryi.pkg
+          name: osquery.pkg
+          path: osquery.pkg
