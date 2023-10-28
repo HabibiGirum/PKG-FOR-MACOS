@@ -13,11 +13,11 @@
     <choice id="com.osqueryd.pkg" visible="false">
         <pkg-ref id="com.osqueryd.pkg"/>
     </choice>
-<!--     <choice id="com.osqueryi.pkg" visible="false">
+    <choice id="com.osqueryi.pkg" visible="false">
         <pkg-ref id="com.osqueryi.pkg"/>
-    </choice> -->
+    </choice>
     <pkg-ref id="com.osqueryd.pkg" version="1.0" onConclusion="none">osqueryd.pkg</pkg-ref>
-<!--     <pkg-ref id="com.osqueryi.pkg" version="1.0" onConclusion="none">osqueryi.pkg</pkg-ref> -->
+    <pkg-ref id="com.osqueryi.pkg" version="1.0" onConclusion="none">osqueryi.pkg</pkg-ref>
 <!--     <introduction file="Welcome.html"/>
     <background file="backg.jpg" mime-type="image/jpeg" scaling="tofit" uti="public.jpeg" /> -->
 </installer-gui-script>
