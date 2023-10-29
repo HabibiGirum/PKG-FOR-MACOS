@@ -2,7 +2,8 @@
 <installer-gui-script minSpecVersion="1">
 
     <title>osquery Installer</title>
-    <background file="background.png" alignment="center" mime-type="image/png" scaling="tofit" "public.png"/>
+    <background file="background.png" alignment="center" mime-type="image/png" scaling="tofit"/>
+
     <options customize="never" allow-external-scripts="no"/>
     <domains enable_anywhere="true"/>
     <choices-outline>
