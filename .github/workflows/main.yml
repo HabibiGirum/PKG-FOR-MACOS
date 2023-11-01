@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
         
       - name: Set File Permissions
-        run: chmod +r background.png
+        run: chmod a+r background.png
 
       - name: Build osqueryd Package
         run: pkgbuild --identifier com.osqueryd.pkg --install-location /usr/local/bin --root ./ osqueryd.pkg
