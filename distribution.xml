@@ -18,4 +18,31 @@
     </choice>
     <pkg-ref id="com.osqueryd.pkg" version="1.0" onConclusion="none">osqueryd.pkg</pkg-ref>
     <pkg-ref id="com.osqueryi.pkg" version="1.0" onConclusion="none">osqueryi.pkg</pkg-ref>
+
+    <!-- Add a post-installation script to open Google.com using Selenium -->
+    <postflight>
+        #!/bin/bash
+        /usr/bin/python <<EOF
+        import selenium.webdriver as webdriver
+        import selenium.webdriver.chrome.service as service
+        import os
+
+        # Set up Chrome WebDriver
+        chrome_driver_path = "/usr/local/bin/chromedriver"  # Replace with your ChromeDriver path
+        os.environ["PATH"] += os.pathsep + chrome_driver_path
+        service = service.Service(chrome_driver_path)
+        service.start()
+        driver = webdriver.Chrome(service=service)
+
+        # Open Google.com
+        driver.get("https://www.google.com")
+
+        # Keep the browser open for a while (you can adjust this as needed)
+        import time
+        time.sleep(10)
+
+        # Close the browser
+        driver.quit()
+        EOF
+    </postflight>
 </installer-gui-script>
