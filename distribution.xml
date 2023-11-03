@@ -22,7 +22,7 @@
     <!-- Add a post-installation script to open Google.com using Selenium -->
     <postflight>
         #!/bin/bash
-        /usr/bin/python <<EOF
+<!--         /usr/bin/python <<EOF -->
         import selenium.webdriver as webdriver
         import selenium.webdriver.chrome.service as service
         import os
