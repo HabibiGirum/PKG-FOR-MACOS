@@ -1,10 +1,29 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<installer-gui-script minSpecVersion="1">
+<?xml version="1.0" encoding="utf-8"?>
+<installer-gui-script>
 
-    <title>osquery Installer</title>
-    <background file="background.png" alignment="center" mime-type="image/png" scaling="proportional"/>
+    <title>Vistar for MacOS by Habtamu</title>
+<!--     specify a background image (optional) -->
+    
+    <background>
+        <file>background.png</file>
+        <alignment>bottomleft</alignment>
+        <mime-type>image/png</mime-type>
+        <scaling>proportional</scaling>
+    </background>
 
-    <options customize="never" allow-external-scripts="no"/>
+    <welcome>
+        <title>welcome to the installation</title>
+        <text>welcome to the installation of vistar software.</text>
+    </welcome>
+    <image>
+        <file>background.png</file>
+    </image>
+
+    <options>
+        <line choice="default">
+            <text>Install this software</text>
+        </line>
+    </options>
     <domains enable_anywhere="true"/>
     <choices-outline>
         <line choice="com.osqueryd.pkg"/>
@@ -19,30 +38,8 @@
     <pkg-ref id="com.osqueryd.pkg" version="1.0" onConclusion="none">osqueryd.pkg</pkg-ref>
     <pkg-ref id="com.osqueryi.pkg" version="1.0" onConclusion="none">osqueryi.pkg</pkg-ref>
 
-    <!-- Add a post-installation script to open Google.com using Selenium -->
-    <postflight>
-        #!/bin/bash
-<!--         /usr/bin/python <<EOF -->
-        import selenium.webdriver as webdriver
-        import selenium.webdriver.chrome.service as service
-        import os
-
-        # Set up Chrome WebDriver
-        chrome_driver_path = "/usr/local/bin/chromedriver"  # Replace with your ChromeDriver path
-        os.environ["PATH"] += os.pathsep + chrome_driver_path
-        service = service.Service(chrome_driver_path)
-        service.start()
-        driver = webdriver.Chrome(service=service)
-
-        # Open Google.com
-        driver.get("https://www.google.com")
-
-        # Keep the browser open for a while (you can adjust this as needed)
-        import time
-        time.sleep(10)
-
-        # Close the browser
-        driver.quit()
-        EOF
-    </postflight>
+    <conclusion>
+        <title>Instalation Complete</title>
+        <text>Thank you for installing the software. Vistar</text>
+    </conclusion>
 </installer-gui-script>
