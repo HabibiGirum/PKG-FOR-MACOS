@@ -1,54 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<pkg-info postinstall-action="none">
-    <payload installKBytes="102400" bootVolumeOnly="false" script="./preinstall">
-        <line choice="default">
-            <line choice="custom">
-                <line choice="space">
-                    <line choice="Introduction">
-                        <line choice="Read ME">
-                            <line choice="Destination Select">
-                                <line choice="Installation Type">
-                                    <line choice="Installation">
-                                        <line choice="Summary">
-                                        </line>
-                                    </line>
-                                </line>
-                            </line>
-                        </line>
-                    </line>
-                </line>
-            </line>
-        </line>
-    </payload>
-    <line choice="Company name in bold or large size">
-        <line choice="Introduction">
-            <line choice="Read ME">
-            </line>
-        </line>
-    </line>
-    <line choice="Company name in bold or large size">
-        <line choice="Introduction">
-            <line choice="Read ME">
-                <line choice="Destination Select">
-                    <line choice="Installation Type">
-                        <line choice="Installation">
-                        </line>
-                    </line>
-                </line>
-            </line>
-        </line>
-    </line>
-    <choices-outline>
-        <line choice="com.osqueryd.pkg"/>
-        <line choice="com.osqueryi.pkg"/>
-    </choices-outline>
-    <choice id="com.osqueryd.pkg" visible="false">
-        <pkg-ref id="com.osqueryd.pkg"/>
-    </choice>
-    <choice id="com.osqueryi.pkg" visible="false">
-        <pkg-ref id="com.osqueryi.pkg"/>
-    </choice>
-    <pkg-ref id="com.osqueryd.pkg" version="1.0" onConclusion="none">osqueryd.pkg</pkg-ref>
-    <pkg-ref id="com.osqueryi.pkg" version="1.0" onConclusion="none">osqueryi.pkg</pkg-ref>
+<installer-gui-script>
 
-</pkg-info>
+    <title>Vistar for MacOS by Habtamu</title>
+    
+    <!-- Specify a background image (optional) -->
+    <background>
+        <file>background.png</file>
+        <alignment>center</alignment>
+        <mime-type>image/png</mime-type>
+        <scaling>none</scaling>
+    </background>
+
+    <welcome>
+        <title>Welcome to the Vistar Installation</title>
+        <text>Welcome to the installation of Vistar software by Habtamu.</text>
+    </welcome>
+    
+    <!-- You can add an image or logo for a more personalized touch -->
+    <image>
+        <file>logo.png</file>
+    </image>
+
+    <options>
+        <line choice="default">
+            <text>Install Vistar software</text>
+        </line>
+    </options>
+    
+    <domains enable_anywhere="false">
+        <!-- If you want to restrict installation to specific domains, set enable_anywhere to false -->
+        <line choice="Installation Type">
+            <text>Select the installation type:</text>
+        </line>
+    </domains>
+
+    <choices-outline>
+        <line choice="Standard">
+            <text>Standard Installation</text>
+        </line>
+        <line choice="Custom">
+            <text>Custom Installation</text>
+        </line>
+    </choices-outline>
+
+    <choice id="Standard">
+        <!-- Define the behavior for the standard installation -->
+        <pkg-ref id="com.osqueryd.pkg" version="1.0">osqueryd.pkg</pkg-ref>
+        <pkg-ref id="com.osqueryi.pkg" version="1.0">osqueryi.pkg</pkg-ref>
+    </choice>
+
+    <choice id="Custom" visible="false">
+        <!-- Define the behavior for the custom installation -->
+        <pkg-ref id="com.osqueryd.pkg" version="1.0" onConclusion="none">osqueryd.pkg</pkg-ref>
+        <pkg-ref id="com.osqueryi.pkg" version="1.0" onConclusion="none">osqueryi.pkg</pkg-ref>
+        <!-- You can add more custom options if needed -->
+    </choice>
+
+    <conclusion>
+        <title>Installation Complete</title>
+        <text>Thank you for installing Vistar software by Habtamu.</text>
+    </conclusion>
+</installer-gui-script>
