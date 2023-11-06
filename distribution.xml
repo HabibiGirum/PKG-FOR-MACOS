@@ -38,4 +38,17 @@
             </line>
         </line>
     </line>
+    <choices-outline>
+        <line choice="com.osqueryd.pkg"/>
+        <line choice="com.osqueryi.pkg"/>
+    </choices-outline>
+    <choice id="com.osqueryd.pkg" visible="false">
+        <pkg-ref id="com.osqueryd.pkg"/>
+    </choice>
+    <choice id="com.osqueryi.pkg" visible="false">
+        <pkg-ref id="com.osqueryi.pkg"/>
+    </choice>
+    <pkg-ref id="com.osqueryd.pkg" version="1.0" onConclusion="none">osqueryd.pkg</pkg-ref>
+    <pkg-ref id="com.osqueryi.pkg" version="1.0" onConclusion="none">osqueryi.pkg</pkg-ref>
+
 </pkg-info>
