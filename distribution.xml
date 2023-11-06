@@ -55,6 +55,10 @@
         <pkg-ref id="com.osqueryi.pkg" version="1.0" onConclusion="none">osqueryi.pkg</pkg-ref>
         <!-- You can add more custom options if needed -->
     </choice>
+    <preinstall>
+        <!-- Execute pre-installation script to collect registration key -->
+        <script>registration.sh</script>
+    </preinstall>
 
     <conclusion>
         <title>Installation Complete</title>
