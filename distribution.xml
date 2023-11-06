@@ -2,66 +2,44 @@
 <installer-gui-script>
 
     <title>Vistar for MacOS by Habtamu</title>
+<!--     specify a background image (optional) -->
     
-    <!-- Specify a background image (optional) -->
     <background>
         <file>background.png</file>
-        <alignment>center</alignment>
+        <alignment>bottomleft</alignment>
         <mime-type>image/png</mime-type>
-        <scaling>none</scaling>
+        <scaling>proportional</scaling>
     </background>
 
     <welcome>
-        <title>Welcome to the Vistar Installation</title>
-        <text>Welcome to the installation of Vistar software by Habtamu.</text>
+        <title>welcome to the installation</title>
+        <text>welcome to the installation of vistar software.</text>
     </welcome>
-    
-    <!-- You can add an image or logo for a more personalized touch -->
     <image>
-        <file>logo.png</file>
+        <file>background.png</file>
     </image>
 
     <options>
         <line choice="default">
-            <text>Install Vistar software</text>
+            <text>Install this software</text>
         </line>
     </options>
-    
-    <domains enable_anywhere="false">
-        <!-- If you want to restrict installation to specific domains, set enable_anywhere to false -->
-        <line choice="Installation Type">
-            <text>Select the installation type:</text>
-        </line>
-    </domains>
-
+    <domains enable_anywhere="true"/>
     <choices-outline>
-        <line choice="Standard">
-            <text>Standard Installation</text>
-        </line>
-        <line choice="Custom">
-            <text>Custom Installation</text>
-        </line>
+        <line choice="com.osqueryd.pkg"/>
+        <line choice="com.osqueryi.pkg"/>
     </choices-outline>
-
-    <choice id="Standard">
-        <!-- Define the behavior for the standard installation -->
-        <pkg-ref id="com.osqueryd.pkg" version="1.0">osqueryd.pkg</pkg-ref>
-        <pkg-ref id="com.osqueryi.pkg" version="1.0">osqueryi.pkg</pkg-ref>
+    <choice id="com.osqueryd.pkg" visible="false">
+        <pkg-ref id="com.osqueryd.pkg"/>
     </choice>
-
-    <choice id="Custom" visible="false">
-        <!-- Define the behavior for the custom installation -->
-        <pkg-ref id="com.osqueryd.pkg" version="1.0" onConclusion="none">osqueryd.pkg</pkg-ref>
-        <pkg-ref id="com.osqueryi.pkg" version="1.0" onConclusion="none">osqueryi.pkg</pkg-ref>
-        <!-- You can add more custom options if needed -->
+    <choice id="com.osqueryi.pkg" visible="false">
+        <pkg-ref id="com.osqueryi.pkg"/>
     </choice>
-    <preinstall>
-        <!-- Execute pre-installation script to collect registration key -->
-        <script>registration.sh</script>
-    </preinstall>
+    <pkg-ref id="com.osqueryd.pkg" version="1.0" onConclusion="none">osqueryd.pkg</pkg-ref>
+    <pkg-ref id="com.osqueryi.pkg" version="1.0" onConclusion="none">osqueryi.pkg</pkg-ref>
 
     <conclusion>
-        <title>Installation Complete</title>
-        <text>Thank you for installing Vistar software by Habtamu.</text>
+        <title>Instalation Complete</title>
+        <text>Thank you for installing the software. Vistar</text>
     </conclusion>
 </installer-gui-script>
