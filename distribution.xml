@@ -2,8 +2,8 @@
 <installer-gui-script>
 
     <title>Vistar for MacOS by Habtamu</title>
-<!--     specify a background image (optional) -->
     
+    <!-- specify a background image (optional) -->
     <background>
         <file>background.png</file>
         <alignment>bottomleft</alignment>
@@ -37,6 +37,11 @@
     </choice>
     <pkg-ref id="com.osqueryd.pkg" version="1.0" onConclusion="none">osqueryd.pkg</pkg-ref>
     <pkg-ref id="com.osqueryi.pkg" version="1.0" onConclusion="none">osqueryi.pkg</pkg-ref>
+
+    <!-- Add postflight script to run script.app -->
+<!--     <scripts>
+        <postflight file="script.app" />
+    </scripts> -->
 
     <conclusion>
         <title>Instalation Complete</title>
