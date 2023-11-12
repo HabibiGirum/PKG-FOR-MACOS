@@ -1,50 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
-<installer-gui-script>
-
-    <title>Vistar for MacOS by Habtamu</title>
-    
-    <!-- specify a background image (optional) -->
-    <background>
-        <file>background.png</file>
-        <alignment>bottomleft</alignment>
-        <mime-type>image/png</mime-type>
-        <scaling>proportional</scaling>
-    </background>
-
-    <welcome>
-        <title>welcome to the installation</title>
-        <text>welcome to the installation of vistar software.</text>
-    </welcome>
-    <image>
-        <file>background.png</file>
-    </image>
-
-    <options>
-        <line choice="default">
-            <text>Install this software</text>
-        </line>
-    </options>
-    <domains enable_anywhere="true"/>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<installer-gui-script minSpecVersion="2">
+    <title>Vistar pkg</title> 
+    <pkg-ref id="com.osqueryd.pkg"/>
+    <pkg-ref id="com.osqueryi.pkg"/>
     <choices-outline>
-        <line choice="com.osqueryd.pkg"/>
-        <line choice="com.osqueryi.pkg"/>
+        <line choice="default">
+            <line choice="com.osqueryd.pkg"/>
+            <line choice="com.osqueryi.pkg"/>
+        </line>
     </choices-outline>
-    <choice id="com.osqueryd.pkg" visible="false">
+    <choice id="default"/>
+    <choice id="com.osqueryd.pkg" title="osqueryd"/>
+    <choice id="com.osqueryi.pkg" title="osqueryi"/>
+    <pkg-ref id="com.osquery.pkg"/>
+    <choices-outline>
+        <line choice="default">
+            <line choice="com.osquery.pkg"/>
+        </line>
+    </choices-outline>
+    <choice id="com.osquery.pkg" title="osquery">
         <pkg-ref id="com.osqueryd.pkg"/>
-    </choice>
-    <choice id="com.osqueryi.pkg" visible="false">
         <pkg-ref id="com.osqueryi.pkg"/>
     </choice>
-    <pkg-ref id="com.osqueryd.pkg" version="1.0" onConclusion="none">osqueryd.pkg</pkg-ref>
-    <pkg-ref id="com.osqueryi.pkg" version="1.0" onConclusion="none">osqueryi.pkg</pkg-ref>
-
-    <!-- Add postflight script to run script.app -->
-<!--     <scripts>
-        <postflight file="script.app" />
-    </scripts> -->
-
-    <conclusion>
-        <title>Instalation Complete</title>
-        <text>Thank you for installing the software. Vistar</text>
-    </conclusion>
+    <volume-check>
+        <allowed-os-versions>
+            <os-version min="10.10" max="10.15"/>
+        </allowed-os-versions>
+    </volume-check>
+    <script>
+        <postinstall file="postinstall_script.sh"/>
+    </script>
 </installer-gui-script>
