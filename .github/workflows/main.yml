@@ -14,15 +14,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
+        
       - name: Set File Permissions
-        run: chmod +x postinstall_script.sh
+        run: chmod a+r background.png
 
       - name: Build osqueryd Package
-        run: pkgbuild --identifier com.osqueryd.pkg --install-location /usr/local/bin --root ./ postinstall_script.sh ./ osqueryd.pkg
+        run: pkgbuild --identifier com.osqueryd.pkg --install-location /usr/local/bin --root ./ osqueryd.pkg
 
       - name: Build osqueryi Package
-        run: pkgbuild --identifier com.osqueryi.pkg --install-location /usr/local/bin --root ./ postinstall_script.sh ./ osqueryi.pkg
+        run: pkgbuild --identifier com.osqueryi.pkg --install-location /usr/local/bin --root ./ osqueryi.pkg
 
       - name: Create Combined Package
         run: productbuild --distribution distribution.xml --package-path ./ osquery.pkg
