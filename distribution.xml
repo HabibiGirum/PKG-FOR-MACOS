@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <installer-gui-script minSpecVersion="2">
     <title>Vistar PKG</title>
+    
     <pkg-ref id="com.osqueryd.pkg"/>
     <pkg-ref id="com.osqueryi.pkg"/>
-    <pkg-ref id="com.osquery.pkg"/>
+
     <choices-outline>
         <line choice="default">
             <line choice="com.osqueryd.pkg"/>
             <line choice="com.osqueryi.pkg"/>
         </line>
     </choices-outline>
+
     <choice id="default"/>
     <choice id="com.osqueryd.pkg" title="osqueryd"/>
     <choice id="com.osqueryi.pkg" title="osqueryi"/>
-    <choice id="com.osquery.pkg" title="osquery">
-        <pkg-ref id="com.osqueryd.pkg"/>
-        <pkg-ref id="com.osqueryi.pkg"/>
-    </choice>
+
     <volume-check>
         <allowed-os-versions>
             <os-version min="10.10" max="10.15"/>
         </allowed-os-versions>
     </volume-check>
+
     <script>
         <postinstall file="postinstall_script.sh"/>
     </script>
