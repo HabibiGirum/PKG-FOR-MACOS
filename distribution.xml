@@ -1,28 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <installer-gui-script minSpecVersion="2">
     <title>Vistar PKG</title>
-    
-    <pkg-ref id="com.osqueryd.pkg"/>
-    <pkg-ref id="com.osqueryi.pkg"/>
-
+    <background file="background.png" alignment="bottomleft" scaling="none"/>
+<!--     <welcome file="welcome.html"/>
+    <license file="license.html"/> -->
+    <options customize="never" require-scripts="true"/>
     <choices-outline>
-        <line choice="default">
-            <line choice="com.osqueryd.pkg"/>
-            <line choice="com.osqueryi.pkg"/>
+        <line choice="osqueryi">
+            <line choice="osqueryd"/>
         </line>
     </choices-outline>
-
-    <choice id="default"/>
-    <choice id="com.osqueryd.pkg" title="osqueryd"/>
-    <choice id="com.osqueryi.pkg" title="osqueryi"/>
-
-    <volume-check>
-        <allowed-os-versions>
-            <os-version min="10.10" max="10.15"/>
-        </allowed-os-versions>
-    </volume-check>
-
-    <script>
-        <postinstall file="postinstall_script.sh"/>
-    </script>
+    <choice id="osqueryi" title="osqueryi">
+        <pkg-ref id="com.osqueryi.pkg"/>
+    </choice>
+    <choice id="osqueryd" title="osqueryd">
+        <pkg-ref id="com.osqueryd.pkg"/>
+    </choice>
+    <pkg-ref id="com.osqueryi.pkg" version="1.0.0" onConclusion="none">osqueryi.pkg</pkg-ref>
+    <pkg-ref id="com.osqueryd.pkg" version="1.0.0" onConclusion="none">osqueryd.pkg</pkg-ref>
+    <product id="com.osquery.pkg" version="1.0.0" />
 </installer-gui-script>
