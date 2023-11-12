@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <installer-gui-script minSpecVersion="2">
-    <title>Vistar pkg</title> 
+    <title>Vistar PKG</title>
     <pkg-ref id="com.osqueryd.pkg"/>
     <pkg-ref id="com.osqueryi.pkg"/>
+    <pkg-ref id="com.osquery.pkg"/>
     <choices-outline>
         <line choice="default">
             <line choice="com.osqueryd.pkg"/>
@@ -12,12 +13,6 @@
     <choice id="default"/>
     <choice id="com.osqueryd.pkg" title="osqueryd"/>
     <choice id="com.osqueryi.pkg" title="osqueryi"/>
-    <pkg-ref id="com.osquery.pkg"/>
-    <choices-outline>
-        <line choice="default">
-            <line choice="com.osquery.pkg"/>
-        </line>
-    </choices-outline>
     <choice id="com.osquery.pkg" title="osquery">
         <pkg-ref id="com.osqueryd.pkg"/>
         <pkg-ref id="com.osqueryi.pkg"/>
