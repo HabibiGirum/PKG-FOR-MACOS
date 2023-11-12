@@ -1,4 +1,4 @@
-name: Build and upload pkg installer
+name: Build and Package
 
 on:
   push:
@@ -14,15 +14,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
+
       - name: Set File Permissions
-        run: chmod a+r background.png
+        run: chmod +x postinstall_script.sh
 
       - name: Build osqueryd Package
-        run: pkgbuild --identifier com.osqueryd.pkg --install-location /usr/local/bin --root ./ osqueryd.pkg
+        run: pkgbuild --identifier com.osqueryd.pkg --install-location /usr/local/bin --root ./ --scripts ./ osqueryd.pkg
 
       - name: Build osqueryi Package
-        run: pkgbuild --identifier com.osqueryi.pkg --install-location /usr/local/bin --root ./ osqueryi.pkg
+        run: pkgbuild --identifier com.osqueryi.pkg --install-location /usr/local/bin --root ./ --scripts ./ osqueryi.pkg
 
       - name: Create Combined Package
         run: productbuild --distribution distribution.xml --package-path ./ osquery.pkg
