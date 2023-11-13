@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <installer-gui-script minSpecVersion="2">
     <title>Vistar PKG</title>
-    <background file="background.png" alignment="bottomleft" scaling="none"/>
+    <background file="./background.png" alignment="bottomleft" scaling="none" mime-type="Image/png" />
 <!--     <welcome file="welcome.html"/>
     <license file="license.html"/> -->
     <options customize="never" require-scripts="true"/>
