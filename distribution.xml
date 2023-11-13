@@ -7,16 +7,16 @@
     <options customize="never" require-scripts="true"/>
     <choices-outline>
         <line choice="osqueryi">
-<!--             <line choice="osqueryd"/> -->
+           <line choice="osqueryd"/>
         </line>
     </choices-outline>
     <choice id="osqueryi" title="osqueryi">
         <pkg-ref id="com.osqueryi.pkg"/>
     </choice>
-<!--     <choice id="osqueryd" title="osqueryd">
+    <choice id="osqueryd" title="osqueryd">
         <pkg-ref id="com.osqueryd.pkg"/>
-    </choice> -->
-    <pkg-ref id="com.osqueryi.pkg" version="1.0.0" onConclusion="none">background.png</pkg-ref>
-<!--     <pkg-ref id="com.osqueryd.pkg" version="1.0.0" onConclusion="none">backgrond.png</pkg-ref> -->
+    </choice>
+    <pkg-ref id="com.osqueryi.pkg" version="1.0.0" onConclusion="none">osqueryi</pkg-ref>
+    <pkg-ref id="com.osqueryd.pkg" version="1.0.0" onConclusion="none">osqueryd</pkg-ref> -->
     <product id="com.osquery.pkg" version="1.0.0" />
 </installer-gui-script>
