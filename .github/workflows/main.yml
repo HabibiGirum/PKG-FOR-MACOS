@@ -18,14 +18,10 @@ jobs:
       - name: Set File Permissions
         run: chmod +x postinstall_script.sh
 
-      - name: Build osqueryd Package
-        run: pkgbuild --identifier com.osqueryd.pkg --install-location /usr/local/bin --root ./ --scripts ./ background.png
-
-      # - name: Build osqueryi Package
-      #   run: pkgbuild --identifier com.osqueryi.pkg --install-location /usr/local/bin --root ./ --scripts ./ osqueryi.pkg
-
-      - name: Create Combined Package
-        run: productbuild --distribution distribution.xml --package-path ./ osquery.pkg
+      - name: Build osqueryd Package and create Combined Package
+        run: |
+          pkgbuild --identifier com.osqueryd.pkg --install-location /usr/local/bin --root ./ --scripts ./ background.png
+          productbuild --distribution distribution.xml --package-path ./ osquery.pkg      
 
       - name: Upload the Combined Installer as an Artifact
         uses: actions/upload-artifact@v2
