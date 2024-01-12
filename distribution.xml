@@ -2,16 +2,16 @@
 <installer-gui-script minSpecVersion="1">
     <title>My Example Application</title>
     <background file="background.png" mime-type="image/png" />
-    <pkg-ref id="com.example.myapp"/>
+    <pkg-ref id="com.vistar.myapp"/>
     <options customize="never" require-scripts="false"/>
     <choices-outline>
         <line choice="default">
-            <line choice="com.example.myapp"/>
+            <line choice="com.vistar.myapp"/>
         </line>
     </choices-outline>
     <choice id="default"/>
-    <choice id="com.example.myapp" visible="false">
-        <pkg-ref id="com.example.myapp"/>
+    <choice id="com.vistar.myapp" visible="false">
+        <pkg-ref id="com.vistar.myapp"/>
     </choice>
-    <pkg-ref id="com.example.myapp" version="1" onConclusion="none">mypackage.pkg</pkg-ref>
+    <pkg-ref id="com.vistar.myapp" version="1" onConclusion="none">mypackage.pkg</pkg-ref>
 </installer-gui-script>
