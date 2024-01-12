@@ -20,7 +20,7 @@ jobs:
 
       - name: Build osqueryd Package
         run: |
-          pkgbuild --root ./scripts --scripts ./scripts --identifier com.vistar.myapp --version 1 --install-location /Applications mypackage.pkg
+          pkgbuild --root ./myimages --scripts ./scripts --identifier com.vistar.myapp --version 1 --install-location /Applications mypackage.pkg
           productbuild --distribution distribution.xml --resources ./myimages --package-path ./mypackage.pkg myimprovedpackage.pkg
 
 
