@@ -19,10 +19,14 @@ jobs:
         run: chmod +x postinstall_script.sh
 
       - name: Build osqueryd Package
-        run: pkgbuild --root ./ --scripts ./scripts --identifier com.vistar.myapp --version 1 --install-location /Applications mypackage.pkg
+        run: |
+          pkgbuild --root ./ --scripts ./scripts --identifier com.vistar.myapp --version 1 --install-location /Applications mypackage.pkg
+          productbuild --distribution distribution.xml --resources ./myimages --package-path ./mypackage.pkg myimprovedpackage.pkg
+
+
 
       - name: Upload the Installer Package as an Artifact
         uses: actions/upload-artifact@v2
         with:
           name: osquery.pkg
-          path: mypackage.pkg
+          path: myimprovedpackage.pkg
