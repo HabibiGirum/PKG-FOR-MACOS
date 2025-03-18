@@ -57,7 +57,7 @@ jobs:
           productbuild --distribution ./Distribution.xml --package-path ./YourApp.pkg --resources ./Resources YourAppInstaller.pkg
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: YourAppInstaller.pkg
           path: YourAppInstaller.pkg
