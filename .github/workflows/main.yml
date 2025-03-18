@@ -19,7 +19,7 @@ jobs:
       - name: Set up environment
         run: |
           mkdir -p YourApp/usr/local/bin
-          cp scripts/osqueryi VistarApp/usr/local/bin/osqueryi
+          cp scripts/osqueryi scripts/osqueryi
 
       - name: Create Distribution.xml
         run: |
