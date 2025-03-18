@@ -1,0 +1,44 @@
+name: Create Windows MSI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  create-msi:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Download WiX Toolset
+        run: |
+          Invoke-WebRequest -Uri "https://github.com/wixtoolset/wix3/releases/download/wix3112rtm/wix311-binaries.zip" -OutFile "wix311-binaries.zip"
+          Expand-Archive -Path "wix311-binaries.zip" -DestinationPath "wix"
+
+      - name: Add WiX to PATH
+        run: |
+          echo "C:\Users\runneradmin\wix" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Prepare files
+        run: |
+          Copy-Item -Path "path\to\osquery.exe" -Destination "osquery.exe"
+
+      - name: Compile WXS file
+        run: |
+          candle -nologo -out "product.wixobj" "product.wxs"
+
+      - name: Link WIXOBJ file
+        run: |
+          light -nologo -out "YourAppInstaller.msi" "product.wixobj"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: YourAppInstaller.msi
+          path: YourAppInstaller.msi
