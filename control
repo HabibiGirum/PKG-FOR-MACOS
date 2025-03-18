@@ -1,0 +1,8 @@
+Package: osqueryi
+Version: 1.0.0
+Section: utils
+Priority: optional
+Architecture: amd64
+Maintainer: Your Name <your.email@example.com>
+Description: A lightweight runtime security agent.
+ osqueryi is a powerful SQL-based tool for querying system information.

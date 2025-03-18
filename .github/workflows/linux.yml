@@ -1,0 +1,47 @@
+name: Create Linux DEB
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  create-deb:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up environment
+        run: |
+          mkdir -p osqueryi-deb/usr/local/bin
+          cp scripts/osqueryi osqueryi-deb/usr/local/bin/osqueryi
+
+      - name: Create DEBIAN/control file
+        run: |
+          mkdir -p osqueryi-deb/DEBIAN
+          cat <<EOL > osqueryi-deb/DEBIAN/control
+          Package: osqueryi
+          Version: 1.0.0
+          Section: utils
+          Priority: optional
+          Architecture: amd64
+          Maintainer: Your Name <your.email@example.com>
+          Description: A lightweight runtime security agent.
+           osqueryi is a powerful SQL-based tool for querying system information.
+          EOL
+
+      - name: Build DEB package
+        run: |
+          dpkg-deb --build osqueryi-deb
+          mv osqueryi-deb.deb osqueryi_1.0.0_amd64.deb
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: osqueryi_1.0.0_amd64.deb
+          path: osqueryi_1.0.0_amd64.deb
