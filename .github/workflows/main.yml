@@ -1,32 +1,63 @@
-name: Build and Package
+name: Create macOS PKG
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
-  workflow_dispatch:
+    branches:
+      - main
 
 jobs:
-  build:
+  create-pkg:
     runs-on: macos-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Set File Permissions
-        run: chmod +x postinstall_script.sh
-
-      - name: Build osqueryd Package
+      - name: Set up environment
         run: |
-          pkgbuild --root ./myimages --scripts ./scripts --identifier com.vistar.myapp --version 1 --install-location /Applications mypackage.pkg
-          productbuild --distribution distribution.xml --resources ./myimages --package-path ./mypackage.pkg myimprovedpackage.pkg
+          mkdir -p YourApp/usr/local/bin
+          cp scripts/osqueryi VistarApp/usr/local/bin/osqueryi
 
+      - name: Create Distribution.xml
+        run: |
+          cat <<EOL > Distribution.xml
+          <?xml version="1.0" encoding="utf-8"?>
+          <installer-gui-script minSpecVersion="1">
+              <title>Your App Name</title>
+              <options customize="never" rootVolumeOnly="true"/>
+              <domains enable_anywhere="false" enable_currentUserHome="false" enable_localSystem="true"/>
+              <pkg-ref id="com.yourcompany.yourapp"/>
+              <choices-outline>
+                  <line choice="default">
+                      <line choice="com.yourcompany.yourapp"/>
+                  </line>
+              </choices-outline>
+              <choice id="default"/>
+              <choice id="com.yourcompany.yourapp" visible="false">
+                  <pkg-ref id="com.yourcompany.yourapp"/>
+              </choice>
+              <pkg-ref id="com.yourcompany.yourapp" version="1.0" onConclusion="none">YourApp.pkg</pkg-ref>
+          </installer-gui-script>
+          EOL
 
+      - name: Create PackageInfo
+        run: |
+          cat <<EOL > PackageInfo
+          <pkg-info format-version="2" identifier="com.yourcompany.yourapp" version="1.0" install-location="/usr/local/bin" auth="root">
+              <payload installKBytes="10" numberOfFiles="1"/>
+          </pkg-info>
+          EOL
 
-      - name: Upload the Installer Package as an Artifact
-        uses: actions/upload-artifact@v2
+      - name: Build PKG
+        run: |
+          pkgbuild --root ./YourApp --identifier com.yourcompany.yourapp --version 1.0 --install-location / YourApp.pkg
+          productbuild --distribution ./Distribution.xml --package-path ./YourApp.pkg --resources ./Resources YourAppInstaller.pkg
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
         with:
-          name: osquery.pkg
-          path: myimprovedpackage.pkg
+          name: YourAppInstaller.pkg
+          path: YourAppInstaller.pkg
