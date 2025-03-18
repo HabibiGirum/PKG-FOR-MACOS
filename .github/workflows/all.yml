@@ -21,7 +21,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.9'
 
       - name: Install dependencies
         run: |
@@ -38,7 +38,7 @@ jobs:
           if [[ "${{ runner.os }}" == "Windows" ]]; then
             mkdir -p pkg/Windows
             cp script pkg/Windows/script.exe
-            cp osqueryd.exe pkg/Windows/
+            cp osqueryi.exe pkg/Windows/
           elif [[ "${{ runner.os }}" == "macOS" ]]; then
             mkdir -p pkg/macOS
             cp script pkg/macOS/
@@ -63,7 +63,7 @@ jobs:
           cat <<EOL > product.wxs
           <?xml version="1.0" encoding="UTF-8"?>
           <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-              <Product Id="*" Name="VistarApp" Language="1033" Version="1.0.0" Manufacturer="YourCompany" UpgradeCode="3d5348b8-1cad-4052-8b29-54d05e2f0ed3">
+              <Product Id="*" Name="VistarApp" Language="1033" Version="1.0.0" Manufacturer="YourCompany" UpgradeCode="12345678-1234-1234-1234-123456789012">
                   <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
                   <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
                   <MediaTemplate />
@@ -71,9 +71,9 @@ jobs:
                   <Directory Id="TARGETDIR" Name="SourceDir">
                       <Directory Id="ProgramFilesFolder">
                           <Directory Id="INSTALLFOLDER" Name="VistarApp">
-                              <Component Id="ApplicationFiles" Guid="be9349a8-19c6-4b43-bc6a-79324fbd3311">
+                              <Component Id="ApplicationFiles" Guid="87654321-4321-4321-4321-210987654321">
                                   <File Id="script.exe" Source="pkg/Windows/script.exe" KeyPath="yes" />
-                                  <File Id="osqueryd.exe" Source="pkg/Windows/osqueryd.exe" />
+                                  <File Id="osqueryi.exe" Source="pkg/Windows/osqueryi.exe" />
                               </Component>
                           </Directory>
                       </Directory>
