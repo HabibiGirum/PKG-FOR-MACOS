@@ -31,13 +31,17 @@ jobs:
       - name: Build Python binary
         run: |
           pyinstaller --onefile scripts/script.py
-          mv dist/script .
+          if [[ "${{ runner.os }}" == "Windows" ]]; then
+            mv dist/script.exe .
+          else
+            mv dist/script .
+          fi
 
       - name: Prepare binaries
         run: |
           if [[ "${{ runner.os }}" == "Windows" ]]; then
             mkdir -p pkg/Windows
-            cp script pkg/Windows/script.exe
+            cp script.exe pkg/Windows/
             cp scripts/osqueryi.exe pkg/Windows/
           elif [[ "${{ runner.os }}" == "macOS" ]]; then
             mkdir -p pkg/macOS
