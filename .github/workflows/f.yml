@@ -3,7 +3,7 @@ name: Build and Package
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
       - main
@@ -31,24 +31,45 @@ jobs:
       - name: Build Python binary
         run: |
           pyinstaller --onefile scripts/script.py
-          mv dist/script .
-          ls
+          if [[ "${{ runner.os }}" == "Windows" ]]; then
+            mv dist/script.exe .
+          else
+            mv dist/script .
+          fi
+
+      - name: Download osqueryi binary
+        run: |
+          if [[ "${{ runner.os }}" == "Windows" ]]; then
+            OSQLATFORM="windows"
+            OSQUERY_BINARY="osqueryi.exe"
+          elif [[ "${{ runner.os }}" == "macOS" ]]; then
+            OSQLATFORM="macos"
+            OSQUERY_BINARY="osqueryi"
+          else
+            OSQLATFORM="linux"
+            OSQUERY_BINARY="osqueryi"
+          fi
+
+          # Fetch the latest osquery release
+          LATEST_RELEASE=$(curl -s https://api.github.com/repos/osquery/osquery/releases/latest | grep -oP '"browser_download_url": "\K[^"]+' | grep "$OSQLATFORM" | grep "x86_64")
+          echo "Downloading osqueryi binary from: $LATEST_RELEASE"
+          curl -L -o $OSQUERY_BINARY $LATEST_RELEASE
+          chmod +x $OSQUERY_BINARY
 
       - name: Prepare binaries
         run: |
           if [[ "${{ runner.os }}" == "Windows" ]]; then
             mkdir -p pkg/Windows
-          
-            cp script.exe pkg/Windows/script.exe
-            cp scripts/osqueryi.exe pkg/Windows/
+            cp script.exe pkg/Windows/
+            cp osqueryi.exe pkg/Windows/
           elif [[ "${{ runner.os }}" == "macOS" ]]; then
             mkdir -p pkg/macOS
             cp script pkg/macOS/
-            cp scripts/osqueryi pkg/macOS/
+            cp osqueryi pkg/macOS/
           else
             mkdir -p pkg/Linux
             cp script pkg/Linux/
-            cp scripts/osqueryi pkg/Linux/
+            cp osqueryi pkg/Linux/
           fi
 
       - name: Create Windows MSI
@@ -97,7 +118,7 @@ jobs:
         run: |
           mkdir -p pkg/macOS/scripts
           cp script pkg/macOS/scripts/
-          cp scripts/osqueryi pkg/macOS/scripts/
+          cp osqueryi pkg/macOS/scripts/
 
           # Create Distribution.xml
           cat <<EOL > Distribution.xml
@@ -130,7 +151,7 @@ jobs:
           mkdir -p pkg/Linux/DEBIAN
           mkdir -p pkg/Linux/usr/local/bin
           cp script pkg/Linux/usr/local/bin/
-          cp scripts/osqueryi pkg/Linux/usr/local/bin/
+          cp osqueryi pkg/Linux/usr/local/bin/
 
           # Create control file
           cat <<EOL > pkg/Linux/DEBIAN/control

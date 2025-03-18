@@ -3,7 +3,7 @@ name: Create macOS PKG
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
       - main
