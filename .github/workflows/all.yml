@@ -1,0 +1,155 @@
+name: Build and Package
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller PyQt5 requests
+
+      - name: Build Python binary
+        run: |
+          pyinstaller --onefile scripts/script.py
+          mv dist/script .
+
+      - name: Prepare binaries
+        run: |
+          if [[ "${{ runner.os }}" == "Windows" ]]; then
+            mkdir -p pkg/Windows
+            cp script pkg/Windows/script.exe
+            cp osqueryd.exe pkg/Windows/
+          elif [[ "${{ runner.os }}" == "macOS" ]]; then
+            mkdir -p pkg/macOS
+            cp script pkg/macOS/
+            cp osqueryi pkg/macOS/
+          else
+            mkdir -p pkg/Linux
+            cp script pkg/Linux/
+            cp osqueryi pkg/Linux/
+          fi
+
+      - name: Create Windows MSI
+        if: matrix.os == 'windows-latest'
+        run: |
+          # Download WiX Toolset
+          Invoke-WebRequest -Uri "https://github.com/wixtoolset/wix3/releases/download/wix3112rtm/wix311-binaries.zip" -OutFile "wix311-binaries.zip"
+          Expand-Archive -Path "wix311-binaries.zip" -DestinationPath "wix"
+
+          # Add WiX to PATH
+          echo "C:\Users\runneradmin\wix" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+          # Create product.wxs
+          cat <<EOL > product.wxs
+          <?xml version="1.0" encoding="UTF-8"?>
+          <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+              <Product Id="*" Name="VistarApp" Language="1033" Version="1.0.0" Manufacturer="YourCompany" UpgradeCode="3d5348b8-1cad-4052-8b29-54d05e2f0ed3">
+                  <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
+                  <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+                  <MediaTemplate />
+
+                  <Directory Id="TARGETDIR" Name="SourceDir">
+                      <Directory Id="ProgramFilesFolder">
+                          <Directory Id="INSTALLFOLDER" Name="VistarApp">
+                              <Component Id="ApplicationFiles" Guid="be9349a8-19c6-4b43-bc6a-79324fbd3311">
+                                  <File Id="script.exe" Source="pkg/Windows/script.exe" KeyPath="yes" />
+                                  <File Id="osqueryd.exe" Source="pkg/Windows/osqueryd.exe" />
+                              </Component>
+                          </Directory>
+                      </Directory>
+                  </Directory>
+
+                  <Feature Id="MainApplication" Title="Main Application" Level="1">
+                      <ComponentRef Id="ApplicationFiles" />
+                  </Feature>
+              </Product>
+          </Wix>
+          EOL
+
+          # Build MSI
+          candle -nologo -out "product.wixobj" "product.wxs"
+          light -nologo -out "VistarAppInstaller.msi" "product.wixobj"
+
+      - name: Create macOS PKG
+        if: matrix.os == 'macOS-latest'
+        run: |
+          mkdir -p pkg/macOS/scripts
+          cp script pkg/macOS/scripts/
+          cp osqueryi pkg/macOS/scripts/
+
+          # Create Distribution.xml
+          cat <<EOL > Distribution.xml
+          <?xml version="1.0" encoding="utf-8"?>
+          <installer-gui-script minSpecVersion="1">
+              <title>VistarApp</title>
+              <options customize="never" rootVolumeOnly="true"/>
+              <domains enable_anywhere="false" enable_currentUserHome="false" enable_localSystem="true"/>
+              <pkg-ref id="com.yourcompany.vistarapp"/>
+              <choices-outline>
+                  <line choice="default">
+                      <line choice="com.yourcompany.vistarapp"/>
+                  </line>
+              </choices-outline>
+              <choice id="default"/>
+              <choice id="com.yourcompany.vistarapp" visible="false">
+                  <pkg-ref id="com.yourcompany.vistarapp"/>
+              </choice>
+              <pkg-ref id="com.yourcompany.vistarapp" version="1.0" onConclusion="none">VistarApp.pkg</pkg-ref>
+          </installer-gui-script>
+          EOL
+
+          # Build PKG
+          pkgbuild --root pkg/macOS --identifier com.yourcompany.vistarapp --version 1.0 --install-location /Applications VistarApp.pkg
+          productbuild --distribution Distribution.xml --package-path VistarApp.pkg --resources . VistarAppInstaller.pkg
+
+      - name: Create Linux DEB
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          mkdir -p pkg/Linux/DEBIAN
+          mkdir -p pkg/Linux/usr/local/bin
+          cp script pkg/Linux/usr/local/bin/
+          cp osqueryi pkg/Linux/usr/local/bin/
+
+          # Create control file
+          cat <<EOL > pkg/Linux/DEBIAN/control
+          Package: vistarapp
+          Version: 1.0.0
+          Section: utils
+          Priority: optional
+          Architecture: amd64
+          Maintainer: Your Name <your.email@example.com>
+          Description: Vistar Application
+           A tool for querying and syncing system data.
+          EOL
+
+          # Build DEB
+          dpkg-deb --build pkg/Linux vistarapp_1.0.0_amd64.deb
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: vistar_${{ runner.os }}
+          path: |
+            VistarAppInstaller.msi
+            VistarAppInstaller.pkg
+            vistarapp_1.0.0_amd64.deb
