@@ -19,7 +19,7 @@ jobs:
       - name: Set up environment
         run: |
           mkdir -p YourApp/usr/local/bin
-          cp scripts/osqueryi scripts/osqueryi
+          cp scripts/osqueryi
 
       - name: Create Distribution.xml
         run: |
