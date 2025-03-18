@@ -38,15 +38,15 @@ jobs:
           if [[ "${{ runner.os }}" == "Windows" ]]; then
             mkdir -p pkg/Windows
             cp script pkg/Windows/script.exe
-            cp osqueryi.exe pkg/Windows/
+            cp scripts/osqueryi.exe pkg/Windows/
           elif [[ "${{ runner.os }}" == "macOS" ]]; then
             mkdir -p pkg/macOS
             cp script pkg/macOS/
-            cp osqueryi pkg/macOS/
+            cp scripts/osqueryi pkg/macOS/
           else
             mkdir -p pkg/Linux
             cp script pkg/Linux/
-            cp osqueryi pkg/Linux/
+            cp scripts/osqueryi pkg/Linux/
           fi
 
       - name: Create Windows MSI
@@ -95,7 +95,7 @@ jobs:
         run: |
           mkdir -p pkg/macOS/scripts
           cp script pkg/macOS/scripts/
-          cp osqueryi pkg/macOS/scripts/
+          cp scripts/osqueryi pkg/macOS/scripts/
 
           # Create Distribution.xml
           cat <<EOL > Distribution.xml
@@ -128,7 +128,7 @@ jobs:
           mkdir -p pkg/Linux/DEBIAN
           mkdir -p pkg/Linux/usr/local/bin
           cp script pkg/Linux/usr/local/bin/
-          cp osqueryi pkg/Linux/usr/local/bin/
+          cp scripts/osqueryi pkg/Linux/usr/local/bin/
 
           # Create control file
           cat <<EOL > pkg/Linux/DEBIAN/control
