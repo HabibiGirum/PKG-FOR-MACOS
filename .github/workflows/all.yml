@@ -32,11 +32,13 @@ jobs:
         run: |
           pyinstaller --onefile scripts/script.py
           mv dist/script .
+          ls
 
       - name: Prepare binaries
         run: |
           if [[ "${{ runner.os }}" == "Windows" ]]; then
             mkdir -p pkg/Windows
+          
             cp script.exe pkg/Windows/script.exe
             cp scripts/osqueryi.exe pkg/Windows/
           elif [[ "${{ runner.os }}" == "macOS" ]]; then
