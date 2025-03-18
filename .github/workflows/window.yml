@@ -27,7 +27,7 @@ jobs:
 
       - name: Prepare files
         run: |
-          Copy-Item -Path "scripts/osqueryd.exe" -Destination "osqueryd.exe"
+          Copy-Item -Path "scripts/osqueryi.exe" -Destination "osqueryi.exe"
 
       - name: Compile WXS file
         run: |
